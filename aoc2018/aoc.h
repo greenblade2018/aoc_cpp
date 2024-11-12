@@ -1,9 +1,12 @@
 #pragma once
 
+#include <algorithm>
+#include <functional>
 #include <iostream>
 #include <map>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace aoc {
@@ -80,5 +83,12 @@ std::vector<T> read_inputs(std::istream& is,
 std::string take_string(std::string& s);
 // Extract all integers with optional signs from string.
 std::vector<long> ints(const std::string& s);
+
+
+//
+// Data structures
+//
+
+using Point = std::pair<int, int>;
 
 } // namespace aoc
