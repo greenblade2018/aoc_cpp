@@ -1,9 +1,14 @@
 #pragma once
 
 #include <algorithm>
+#include <cassert>
+#include <format>
 #include <functional>
 #include <iostream>
 #include <map>
+#include <queue>
+#include <regex>
+#include <set>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -49,6 +54,12 @@ std::ostream& operator<<(std::ostream& os, const std::map<K, V>& m) {
     return os;
 }
 
+template<typename T>
+std::ostream& print_answer(const std::string& part, const T& answer, std::ostream& os = std::cout) {
+    os << "part " << part << ": " << answer << std::endl;
+    return os;
+}
+
 //
 // input functions
 //
@@ -65,7 +76,7 @@ std::vector<T> read_inputs(std::istream& is,
 
     if (show) {
         show = std::min(show, ret.size());
-        std::cout << "Parsed input as:\n";
+        std::cout << "Parsed input as " << typeid(T).name() << ":\n";
         for (size_t i = 0; i < show; ++i) {
             std::cout << ret[i] << '\n';
         }
@@ -83,7 +94,6 @@ std::vector<T> read_inputs(std::istream& is,
 std::string take_string(std::string& s);
 // Extract all integers with optional signs from string.
 std::vector<long> ints(const std::string& s);
-
 
 //
 // Data structures

@@ -1,13 +1,3 @@
-#include <algorithm>
-#include <iostream>
-#include <iterator>
-#include <map>
-#include <regex>
-#include <sstream>
-#include <string>
-#include <utility>
-#include <vector>
-
 #include "aoc.h"
 
 namespace aoc {
