@@ -1,12 +1,15 @@
-#include <string>
+#include <iostream>
+#include <iterator>
 #include <vector>
-#include "aoc.h"
-using namespace std;
-using namespace aoc;
 
 int main() {
-    string s = "#1 @ 1,3: 4x4";
-    auto v = ints(s);
-    for (auto n : v) cout << n << endl;
-    cout << v << endl;
+    std::vector<int> numbers = {1, 2, 3, 4, 5};
+
+    std::ostream_iterator<int> out_it(std::cout, ", "); // Create an ostream_iterator for cout with a space delimiter
+
+    // Use the ostream_iterator to output the vector elements
+    std::copy(numbers.begin(), numbers.end(), out_it); 
+    std::cout << std::endl;
+
+    return 0;
 }

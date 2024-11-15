@@ -5,6 +5,7 @@
 #include <format>
 #include <functional>
 #include <iostream>
+#include <iterator>
 #include <limits>
 #include <map>
 #include <numeric>
@@ -103,5 +104,10 @@ std::vector<long> ints(const std::string& s);
 //
 
 using Point = std::pair<int, int>;
+Point operator+(const Point& a, const Point& b);
+
+extern const Point NORTH, EAST, SOUTH, WEST;
+extern const std::map<char, Point> DIRS;
+Point make_turn(Point facing, char turn);
 
 } // namespace aoc
