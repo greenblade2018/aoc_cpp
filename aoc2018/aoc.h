@@ -110,4 +110,29 @@ extern const Point NORTH, EAST, SOUTH, WEST;
 extern const std::map<char, Point> DIRS;
 Point make_turn(Point facing, char turn);
 
+//
+// Implement grid as a vector of strings.
+// NOTE: it uses (row, column) as coordinate system, not (x, y).
+//
+class StringGrid {
+    friend std::ostream& operator<<(std::ostream& os, const StringGrid& grid);
+
+public:
+    StringGrid(const std::vector<std::string>& lines) : m_grid(lines) {}
+
+    // Will throw out_of_range exception if 'pos' is outside of grid.
+    char& operator[](Point pos);
+    // Find all positions for 'target' in the grid.
+    std::vector<Point> find_all(char target) const;
+    // Check if 'pos' is in the grid range.
+    bool in_range(Point pos) const;
+    // Find all adjacent (direct up, west, east, down - in that order) positions that are in the grid.
+    std::vector<Point> adjacents(Point pos) const;
+    // BFS search to find distance to all reachable positions.
+    std::map<Point, int> bfs(Point src, char empty = '.') const;
+
+private:
+    std::vector<std::string> m_grid;
+};
+
 } // namespace aoc
