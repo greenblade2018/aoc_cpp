@@ -38,6 +38,20 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
     return os;
 }
 
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const std::set<T>& v) {
+    os << '{';
+    bool first = true;
+    for (const auto& e : v) {
+        if (!first) os << ", ";
+        first = false;
+        os << e;
+    }
+    os << '}';
+
+    return os;
+}
+
 template <typename K, typename V>
 std::ostream& operator<<(std::ostream& os, const std::pair<K, V>& p) {
     os << '(' << p.first << ", " << p.second << ')';
@@ -85,7 +99,7 @@ std::vector<T> read_inputs(std::istream& is,
             std::cout << ret[i] << '\n';
         }
         if (show < ret.size()) {
-            std::cout << "... first " << show << " records ...\n";
+            std::cout << "... first " << show << " of " << ret.size() << " records ...\n";
         } else {
             std::cout << "=== total " << show << " records ===\n";
         }
@@ -114,13 +128,14 @@ Point make_turn(Point facing, char turn);
 // Implement grid as a vector of strings.
 // NOTE: it uses (row, column) as coordinate system, not (x, y).
 //
-class StringGrid {
+class StringGrid final {
     friend std::ostream& operator<<(std::ostream& os, const StringGrid& grid);
 
 public:
-    StringGrid(const std::vector<std::string>& lines) : m_grid(lines) {}
+    explicit StringGrid(const std::vector<std::string>& lines) : m_grid(lines) {}
 
     // Will throw out_of_range exception if 'pos' is outside of grid.
+    const char& operator[](Point pos) const;
     char& operator[](Point pos);
     // Find all positions for 'target' in the grid.
     std::vector<Point> find_all(char target) const;

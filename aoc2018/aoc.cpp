@@ -24,6 +24,10 @@ std::vector<long> ints(const std::string& s) {
 // Data structures
 //
 
+//
+// (x, 7) coordinates and directions
+//
+
 Point operator+(const Point& a, const Point& b) {
     return Point(a.first + b.first, a.second + b.second);
 }
@@ -46,17 +50,26 @@ Point make_turn(Point facing, char turn) {
     }
 }
 
+//
+// StringGrid implementation
+//
+
 std::ostream& operator<<(std::ostream& os, const StringGrid& grid) {
     os << std::endl;
     for (const auto& line : grid.m_grid) os << line << std::endl;
     return os;
 }
 
-char& StringGrid::operator[](Point pos) {
+const char& StringGrid::operator[](Point pos) const {
     if (!in_range(pos)) {
         throw std::out_of_range(std::format("({}, {}) is out of range.", pos.first, pos.second));
     }
     return m_grid[pos.first][pos.second];
+}
+
+// Scott Mayer's const_cast() pattern.
+char& StringGrid::operator[](Point pos) {
+    return const_cast<char&>(std::as_const(*this)[pos]);
 }
 
 std::vector<Point> StringGrid::find_all(char target) const {
@@ -81,8 +94,8 @@ std::vector<Point> StringGrid::adjacents(Point pos) const {
         auto [r, c] = pos;
         if (r > 0) result.emplace_back(r - 1, c);
         if (c > 0) result.emplace_back(r, c - 1);
-        if (c + 1 < m_grid[0].size()) result.emplace_back(r, c + 1);
-        if (r + 1 < m_grid.size()) result.emplace_back(r + 1, c);
+        if (c + 1 < (int)m_grid[0].size()) result.emplace_back(r, c + 1);
+        if (r + 1 < (int)m_grid.size()) result.emplace_back(r + 1, c);
     }
     return result;
 }
@@ -109,5 +122,7 @@ std::map<Point, int> StringGrid::bfs(Point src, char empty) const {
 
     return dists;
 }
+
+// End of StringGrid
 
 } // namespace aoc
