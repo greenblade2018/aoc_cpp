@@ -11,5 +11,9 @@ int main() {
     std::copy(numbers.begin(), numbers.end(), out_it); 
     std::cout << std::endl;
 
+    std::vector<int> v{6};
+    std::copy(v.begin(), v.end(), out_it); 
+    std::cout << std::endl;
+
     return 0;
 }
