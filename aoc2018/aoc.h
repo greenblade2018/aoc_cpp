@@ -111,7 +111,7 @@ std::vector<T> read_inputs(std::istream& is,
 // Take ownership of the line.
 std::string take_string(std::string& s);
 // Extract all integers with optional signs from string.
-std::vector<long> ints(const std::string& s);
+std::vector<int> ints(const std::string& s);
 
 //
 // Data structures

@@ -10,13 +10,13 @@ std::string take_string(std::string& s) {
     return std::move(s);
 }
 
-std::vector<long> ints(const std::string& s) {
+std::vector<int> ints(const std::string& s) {
     std::regex pattern(R"([+-]?\d+)");
-    std::vector<long> ret;
+    std::vector<int> ret;
     std::transform(std::sregex_iterator(s.cbegin(), s.cend(), pattern),
         std::sregex_iterator(),
         std::back_inserter(ret),
-        [](const auto& mr) { return std::stol(mr.str()); });
+        [](const auto& mr) { return std::stoi(mr.str()); });
     return ret;
 }
 
