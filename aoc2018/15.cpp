@@ -234,7 +234,7 @@ long solve_two(const std::vector<std::string>& lines) {
     return try_game(lines, high);
 }
 int main() {
-    auto lines = read_inputs<std::string>(std::cin, take_string);
+    auto lines = read_input<std::string>(std::cin, take_string);
     print_answer("one", solve_one(lines));
     std::cout << "200 => " << try_game(lines, 200) << std::endl;
     print_answer("two", solve_two(lines));

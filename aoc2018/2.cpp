@@ -63,7 +63,7 @@ std::string solve_two() {
 }
 
 int main() {
-    inputs = read_inputs<std::string>(std::cin, take_string);
+    inputs = read_input<std::string>(std::cin, take_string);
     std::cout << "part one: " << solve_one() << std::endl;
     std::cout << "part two: " << solve_two() << std::endl;
 }

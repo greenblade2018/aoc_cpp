@@ -83,7 +83,7 @@ std::ostream& print_answer(const std::string& part, const T& answer, std::ostrea
 //
 
 template <typename T>
-std::vector<T> read_inputs(std::istream& is,
+std::vector<T> read_input(std::istream& is,
                            std::function<T(std::string&)> parse,
                            size_t show = 8) {
     std::vector<T> ret;

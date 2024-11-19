@@ -88,7 +88,7 @@ int topwork(const std::set<char>& nodes,
 }
 
 int main() {
-    std::vector<Edge> edges = read_inputs<Edge>(std::cin, parse_line);
+    std::vector<Edge> edges = read_input<Edge>(std::cin, parse_line);
 
     std::set<char> nodes;
     for (auto [u, v] : edges) {

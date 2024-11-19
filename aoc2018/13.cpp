@@ -95,7 +95,7 @@ Point solve_two(const Grid& grid, Carts carts) {
 }
 
 int main() {
-    auto lines = read_inputs<std::string>(std::cin, take_string);
+    auto lines = read_input<std::string>(std::cin, take_string);
     Carts carts;
     for (size_t y = 0; y < lines.size(); ++y) {
         for (size_t x = 0; x < lines[0].size(); ++x) {

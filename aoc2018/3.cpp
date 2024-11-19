@@ -4,7 +4,7 @@
 #include "aoc.h"
 using namespace aoc;
 
-using Claim = std::vector<long>;
+using Claim = std::vector<int>;
 std::vector<Claim> inputs;
 using Grid = std::map<Point, int>;
 Grid grid;
@@ -45,7 +45,7 @@ int solve_two() {
 }
 
 int main() {
-    inputs = read_inputs<Claim>(std::cin, ints);
+    inputs = read_input<Claim>(std::cin, ints);
     std::cout << "part one: " << solve_one() << std::endl;
     std::cout << "part two: " << solve_two() << std::endl;
 }
