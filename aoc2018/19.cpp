@@ -7,6 +7,10 @@ public:
     using Program = std::vector<VecInt>;
     using Op = void(*)(const VecInt&, VecInt&);
 
+    static const std::vector<Op> ops;
+    static const std::map<std::string, int> name_index;
+    static const std::vector<std::string> index_name;
+
     static void addr(const VecInt& code, VecInt& regs) { regs[code[3]] = regs[code[1]] + regs[code[2]]; }
     static void addi(const VecInt& code, VecInt& regs) { regs[code[3]] = regs[code[1]] + code[2]; }
     static void mulr(const VecInt& code, VecInt& regs) { regs[code[3]] = regs[code[1]] * regs[code[2]]; }
@@ -24,14 +28,12 @@ public:
     static void eqri(const VecInt& code, VecInt& regs) { regs[code[3]] = regs[code[1]] == code[2] ? 1 : 0; }
     static void eqrr(const VecInt& code, VecInt& regs) { regs[code[3]] = regs[code[1]] == regs[code[2]] ? 1 : 0; }
 
-    const static std::vector<Op> ops;
-    const static std::map<std::string, int> name_index;
-
 public:
     ElfDevice() : m_regs(6) {}
     void bind_ip(int n) { m_bind = n; }
     void run(const Program& program, int r0, int debug = 1);
     int& reg(int r) { return m_regs[r]; }
+    std::ostream& to_string(std::ostream& os, const Program& program);
 
 private:
     int m_ip = 0;
@@ -58,6 +60,16 @@ const std::map<std::string, int> ElfDevice::name_index {
     {"eqir", 13}, {"eqri", 13}, {"eqrr", 15},
 };
 
+const std::vector<std::string> ElfDevice::index_name {
+    "addr", "addi",
+    "mulr", "muli",
+    "banr", "bani",
+    "borr", "bori",
+    "setr", "seti",
+    "gtir", "gtri", "gtrr",
+    "eqir", "eqri", "eqrr",
+};
+
 void ElfDevice::run(const Program& program, int r0, int debug) {
     std::fill(m_regs.begin(), m_regs.end(), 0);
     m_regs[0] = r0;
@@ -71,6 +83,21 @@ void ElfDevice::run(const Program& program, int r0, int debug) {
     }
     if (debug >= 1) std::cout << "[ED] HALT ip = " << m_ip << std::endl;
 }
+
+std::ostream& ElfDevice::to_string(std::ostream& os, const Program& program) {
+    os << "#ip " << m_bind;
+
+    size_t ipw = std::to_string(program.size()).size();
+    for (size_t i = 0; i < program.size(); ++i) {
+        os << std::format("\n[{:>{}}]  ", i, ipw);
+        os << std::format("{} {} {} {}", index_name[program[i][0]], program[i][1], program[i][2], program[i][3]);
+    }
+    os.flush();
+    return os;
+}
+
+
+
 
 void parse_input(int& bind, ElfDevice::Program& program) {
     std::string line;
@@ -97,10 +124,22 @@ int solve_one(int bind, ElfDevice::Program program, int r0 = 0) {
     return dev.reg(0);
 }
 
+int factor_sum(int n) {
+    int result = 0;
+    for (int i = 1; i <= n; ++i) {
+        if (n % i == 0) result += i;
+    }
+    return result;
+}
+
 int main() {
     int bind;
     ElfDevice::Program program;
     parse_input(bind, program);
-    print_answer("one", solve_one(bind, program));
-    print_answer("two", solve_one(bind, program, 1));
+    // print_answer("one", factor_sum(947));
+    // print_answer("two", factor_sum(947 + 10550400));
+    ElfDevice dev;
+    dev.bind_ip(bind);
+    dev.to_string(std::cout, program);
+    std::cout << std::endl;
 }

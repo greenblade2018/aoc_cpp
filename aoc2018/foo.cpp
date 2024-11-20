@@ -1,3 +1,4 @@
+#include <format>
 #include <iostream>
 #include <iterator>
 #include <vector>
@@ -15,5 +16,6 @@ int main() {
     std::copy(v.begin(), v.end(), out_it); 
     std::cout << std::endl;
 
+    std::cout << std::format("{}", v) << std::endl;;
     return 0;
 }
