@@ -212,7 +212,7 @@ void ElfDevice::pass_goto(const Program& program, std::set<size_t>& entries, std
         m_regs[m_bind] = ip;
         ops[code[0]](code, m_regs);
         if (m_regs[m_bind] >= 0) {
-            entries.insert(m_regs[m_bind]);
+            entries.insert(m_regs[m_bind] + 1);
         } else {
             guess_where(program, ip, entries);
         }
@@ -243,7 +243,7 @@ std::ostream& ElfDevice::pass_print(std::ostream& os, const Program& program, co
 
         if (is_goto(program[ip])) {
             os << "goto ";
-            if (m_regs[m_bind] > 0) {
+            if (m_regs[m_bind] >= 0) {
                 os << (m_regs[m_bind] + 1);
             } else {
                 os << std::format("{} {} {}  ", sa, op_symbols[op], sb);
@@ -257,7 +257,7 @@ std::ostream& ElfDevice::pass_print(std::ostream& os, const Program& program, co
             os << std::format("{} = {} {} {};", sc, sa, op_symbols[op], sb);
         }
 
-        if (m_regs[c] >= 0) os << "\t\t# " << m_regs[c];
+        if (m_regs[c] >= 0) os << "\t# " << m_regs[c];
         os << '\n';
     }
 
