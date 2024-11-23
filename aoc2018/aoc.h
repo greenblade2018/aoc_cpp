@@ -18,8 +18,6 @@
 #include <utility>
 #include <vector>
 
-namespace aoc {
-
 //
 // debug utilities
 //
@@ -71,6 +69,8 @@ std::ostream& operator<<(std::ostream& os, const std::map<K, V>& m) {
 
     return os;
 }
+
+namespace aoc {
 
 template<typename T>
 std::ostream& print_answer(const std::string& part, const T& answer, std::ostream& os = std::cout) {
