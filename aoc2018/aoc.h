@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <deque>
 #include <format>
 #include <functional>
 #include <iostream>
@@ -21,6 +22,18 @@
 //
 // debug utilities
 //
+
+// Need these forward declarations because they call each other.
+template <typename K, typename V> std::ostream& operator<<(std::ostream& os, const std::pair<K, V>& p);
+template <typename T> std::ostream& operator<<(std::ostream& os, const std::vector<T>& v);
+template <typename T> std::ostream& operator<<(std::ostream& os, const std::set<T>& v);
+template <typename K, typename V> std::ostream& operator<<(std::ostream& os, const std::map<K, V>& m);
+
+template <typename K, typename V>
+std::ostream& operator<<(std::ostream& os, const std::pair<K, V>& p) {
+    os << '(' << p.first << ", " << p.second << ')';
+    return os;
+}
 
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
@@ -51,12 +64,6 @@ std::ostream& operator<<(std::ostream& os, const std::set<T>& v) {
 }
 
 template <typename K, typename V>
-std::ostream& operator<<(std::ostream& os, const std::pair<K, V>& p) {
-    os << '(' << p.first << ", " << p.second << ')';
-    return os;
-}
-
-template <typename K, typename V>
 std::ostream& operator<<(std::ostream& os, const std::map<K, V>& m) {
     os << '{';
     bool first = true;
@@ -69,8 +76,6 @@ std::ostream& operator<<(std::ostream& os, const std::map<K, V>& m) {
 
     return os;
 }
-
-namespace aoc {
 
 template<typename T>
 std::ostream& print_answer(const std::string& part, const T& answer, std::ostream& os = std::cout) {
@@ -122,6 +127,7 @@ Point operator+(const Point& a, const Point& b);
 
 extern const Point NORTH, EAST, SOUTH, WEST;
 extern const std::map<char, Point> DIRS;
+extern const std::map<char, Point> DIRS_A;
 Point make_turn(Point facing, char turn);
 
 //
@@ -149,5 +155,3 @@ public:
 private:
     std::vector<std::string> m_grid;
 };
-
-} // namespace aoc

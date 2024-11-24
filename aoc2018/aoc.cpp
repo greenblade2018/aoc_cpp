@@ -1,7 +1,5 @@
 #include "aoc.h"
 
-namespace aoc {
-
 //
 // Input parsers
 //
@@ -37,6 +35,7 @@ const Point SOUTH {0, 1};
 const Point EAST {1, 0};
 const Point WEST {-1, 0};
 const std::map<char, Point> DIRS {{'^', NORTH}, {'v', SOUTH}, {'>', EAST}, {'<', WEST}};
+const std::map<char, Point> DIRS_A {{'N', NORTH}, {'S', SOUTH}, {'E', EAST}, {'W', WEST}};
 
 Point make_turn(Point facing, char turn) {
     auto [x, y] = facing;
@@ -124,5 +123,3 @@ std::map<Point, int> StringGrid::bfs(Point src, char empty) const {
 }
 
 // End of StringGrid
-
-} // namespace aoc
