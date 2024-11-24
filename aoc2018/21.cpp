@@ -1,6 +1,6 @@
 #include "aoc.h"
 #include "device.h"
-using namespace aoc;
+
 
 long solve_one(Device& dev) {
     dev.reset();

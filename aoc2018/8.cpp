@@ -1,5 +1,5 @@
 #include "aoc.h"
-using namespace aoc;
+
 
 // Too lazy to free the memory.
 struct Node {

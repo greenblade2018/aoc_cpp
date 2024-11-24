@@ -1,5 +1,5 @@
 #include "aoc.h"
-using namespace aoc;
+
 
 long cells[301][301];
 

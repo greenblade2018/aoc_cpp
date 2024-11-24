@@ -3,7 +3,7 @@
 #include <string>
 
 #include "aoc.h"
-using namespace aoc;
+
 
 bool trigger(char a, char b) {
     if (a < b) std::swap(a, b);

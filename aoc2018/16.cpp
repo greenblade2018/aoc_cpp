@@ -1,5 +1,5 @@
 #include "aoc.h"
-using namespace aoc;
+
 
 using Record = std::vector<std::vector<int>>;
 

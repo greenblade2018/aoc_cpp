@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "aoc.h"
-using namespace aoc;
+
 
 using Claim = std::vector<int>;
 std::vector<Claim> inputs;

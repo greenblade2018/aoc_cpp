@@ -1,5 +1,5 @@
 #include "aoc.h"
-using namespace aoc;
+
 
 using Grid = std::vector<std::string>;
 

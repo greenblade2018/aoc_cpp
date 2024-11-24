@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "aoc.h"
-using namespace aoc;
+
 
 std::vector<std::string> inputs;
 

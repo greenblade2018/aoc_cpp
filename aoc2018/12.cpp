@@ -1,5 +1,5 @@
 #include "aoc.h"
-using namespace aoc;
+
 
 using Rules = std::map<std::string, char>;
 

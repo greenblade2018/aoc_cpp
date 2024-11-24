@@ -1,5 +1,5 @@
 #include "aoc.h"
-using namespace aoc;
+
 
 struct Unit {
     Point pos;

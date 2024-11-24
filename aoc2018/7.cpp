@@ -1,5 +1,5 @@
 #include "aoc.h"
-using namespace aoc;
+
 
 using Edge = std::pair<char, char>;
 using Graph = std::map<char, std::string>;
