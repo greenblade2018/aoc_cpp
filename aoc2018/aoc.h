@@ -31,8 +31,7 @@ template <typename K, typename V> std::ostream& operator<<(std::ostream& os, con
 
 template <typename K, typename V>
 std::ostream& operator<<(std::ostream& os, const std::pair<K, V>& p) {
-    os << '(' << p.first << ", " << p.second << ')';
-    return os;
+    return os << '(' << p.first << ", " << p.second << ')';
 }
 
 template <typename T>
