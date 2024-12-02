@@ -121,5 +121,9 @@ std::map<Point, int> StringGrid::bfs(Point src, char empty) const {
 
     return dists;
 }
-
 // End of StringGrid
+
+// Manhattan distance -- usually a good hint function for A* search.
+long taxi_distance(const Point& a, const Point& b) {
+    return abs(a.first - b.first) + abs(a.second - b.second);
+}

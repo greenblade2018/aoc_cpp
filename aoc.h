@@ -155,3 +155,81 @@ public:
 private:
     std::vector<std::string> m_grid;
 };
+
+//
+// Search algorithms and data structures
+//
+
+//
+// A node in the search queue.
+//
+template<typename S>
+struct SearchNode {
+    S state;
+    long cost = 0;  // Cost to reach current state.
+    long total_cost = 0;  // Estimated total cost when reaching goal.
+
+    static const long FAILURE = std::numeric_limits<long>::max();
+    auto operator<=>(const SearchNode<S>& other) const { return total_cost <=> other.total_cost; }
+};
+
+template<typename S>
+std::ostream& operator<<(std::ostream& os, const SearchNode<S>& node) {
+    return os << "SearchNode(" << node.state << ", " << node.cost << ")";
+}
+
+//
+// Abstract base class for search problems.
+//
+
+template <typename S>
+class SearchProblem {
+public:
+    using Action = std::pair<S, long>;  // new_state, cost
+
+    virtual S initial_state() = 0;
+    virtual bool is_goal(const S& state) = 0;
+    virtual std::vector<Action> actions(const S& state) = 0;
+    // hint function for A* search.
+    // Must alway be <= real cost from this state to goal.
+    virtual long hfunc(const S& state) { return 0; }    // zero means dijkstra search
+    virtual ~SearchProblem() = default;
+};
+
+//
+// A* search algorithm.
+//
+
+template<typename S>
+SearchNode<S> a_star_search(SearchProblem<S>& problem) {
+    SearchNode<S> node = {problem.initial_state(), 0};
+    std::priority_queue<SearchNode<S>, std::vector<SearchNode<S>>, std::greater<SearchNode<S>>> frontier;
+    frontier.push(node);
+    std::map<S, long> visited = {{node.state, 0}};
+
+    size_t expanded = 0;
+    while (!frontier.empty()) {
+        node = frontier.top();  // reuse the node object
+        frontier.pop();
+        // std::cout << node << std::endl;
+        if (problem.is_goal(node.state)) {
+            std::cout << "[SUCCESS] Nodes expanded: " << expanded << std::endl;
+            return node;
+        }
+
+        ++expanded;
+        for (const auto& [new_state, cost] : problem.actions(node.state)) {
+            auto new_cost = node.cost + cost;
+            if (!visited.count(new_state) || visited[new_state] > new_cost) {
+                visited[new_state] = new_cost;
+                frontier.emplace(new_state, new_cost, new_cost + problem.hfunc(new_state));
+            }
+        }
+    }
+
+    std::cout << "[FAIL] Nodes expanded: " << expanded << std::endl;
+    return SearchNode<S>{S(), SearchNode<S>::FAILURE};
+}
+
+// Manhattan distance -- usually a good hint function for A* search.
+long taxi_distance(const Point& a, const Point& b);

@@ -1,60 +1,25 @@
 #include "aoc.h"
 
-template<typename S>
-struct Node {
-    S state;
-    long cost = 0;
-
-    // Idiotically, std::priority_queue puts the largest key to the front.
-    bool operator<(const Node& other) const { return cost > other.cost; }
-};
-
-template<typename S>
-std::ostream& operator<<(std::ostream& os, const Node<S>& node) {
-    return os << "Node(" << node.state << ", " << node.cost << ")";
-}
-
-constexpr long FAILURE_COST = std::numeric_limits<long>::max();
-
-template<typename P, typename S>
-Node<S> dijkstra_search(P& problem) {
-    Node<S> node = {problem.initial_state(), 0};
-    std::priority_queue<Node<S>> frontier;
-    frontier.push(node);
-    std::map<S, long> visited = {{node.state, 0}};
-
-    while (!frontier.empty()) {
-        node = frontier.top();  // reuse the node object
-        frontier.pop();
-        // std::cout << node << std::endl;
-        if (problem.is_goal(node.state)) return node;
-
-        for (const auto& [new_state, cost] : problem.actions(node.state)) {
-            auto new_cost = node.cost + cost;
-            if (!visited.count(new_state) || visited[new_state] > new_cost) {
-                visited[new_state] = new_cost;
-                frontier.emplace(new_state, new_cost);
-            }
-        }
-    }
-    return Node{S(), FAILURE_COST};
-}
-
 const int ROCKY = 0, WET = 1, NARROW = 2;
 const int NONE = 0, TORCH = 1, CLIMB = 2;
 const std::string GEAR_STR[] = {"None", "Torch", "Climb"};
 
-class Cave {
-public:
-    using State = std::pair<Point, int>;
-    using Action = std::pair<State, long>;
+using State = std::pair<Point, int>;
+std::ostream& operator<<(std::ostream& os, const State& s) {
+    return os << "State(" << s.first << ", " << GEAR_STR[s.second] << ")";
+}
 
+
+class Cave : public SearchProblem<State> {
 public:
     Cave(long depth, Point target);
+
     long rect_risk();
-    State initial_state() const { return State{{0, 0}, TORCH}; }
-    bool is_goal(const State& state) const { return state.first == m_target && state.second == TORCH; }
-    std::vector<Action> actions(const State& state);
+
+    State initial_state() override { return State{{0, 0}, TORCH}; }
+    bool is_goal(const State& state) override { return state.first == m_target && state.second == TORCH; }
+    std::vector<Action> actions(const State& state) override;
+    long hfunc(const State& state) override { return taxi_distance(state.first, m_target); }
 
 private:
     long get_geo(Point p);
@@ -71,20 +36,17 @@ private:
     std::map<Point, long> m_risk;
 };
 
-std::ostream& operator<<(std::ostream& os, const Cave::State& s) {
-    return os << "State(" << s.first << ", " << GEAR_STR[s.second] << ")";
-}
-
 Cave::Cave(long depth, Point target) : m_depth(depth), m_target(target) {
     Point zero(0, 0);
     m_geo[zero] = m_geo[target] = 0;
 }
 
 long Cave::rect_risk() {
-    auto [X, Y] = m_target;
     long result = 0;
-    for (int x = 0; x <= X; ++x) {
-        for (int y = 0; y <= Y; ++y) result += get_risk(Point(x, y));
+    for (int x = 0; x <= m_target.first; ++x) {
+        for (int y = 0; y <= m_target.second; ++y) {
+            result += get_risk(Point(x, y));
+        }
     }
     return result;
 }
@@ -149,12 +111,10 @@ long Cave::get_geo(Point p) {
     return m_geo[p];
 }
 
-
-
 int main() {
     auto input = read_input<std::vector<int>>(std::cin, ints);
     Cave cave(input[0][0], Point(input[1][0], input[1][1]));
     print_answer("one", cave.rect_risk());
-    auto node = dijkstra_search<Cave, Cave::State>(cave);
+    auto node = a_star_search<State>(cave);
     print_answer("two", node.cost);
 }
