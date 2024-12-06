@@ -23,7 +23,7 @@ std::vector<int> ints(const std::string& s) {
 //
 
 //
-// (x, 7) coordinates and directions
+// Positions and directions
 //
 
 Point operator+(const Point& a, const Point& b) {
@@ -43,6 +43,25 @@ Point make_turn(Point facing, char turn) {
         return Point(y, -x);
     } else if (turn == 'R' || turn == 'r') {
         return Point(-y, x);
+    } else {
+        // keep current direction
+        return facing;
+    }
+}
+
+const Point RC_NORTH {-1, 0};
+const Point RC_SOUTH {1, 0};
+const Point RC_EAST {0, 1};
+const Point RC_WEST {0, -1};
+const std::map<char, Point> RC_DIRS {{'^', RC_NORTH}, {'v', RC_SOUTH}, {'>', RC_EAST}, {'<', RC_WEST}};
+const std::map<char, Point> RC_DIRS_A {{'N', RC_NORTH}, {'S', RC_SOUTH}, {'E', RC_EAST}, {'W', RC_WEST}};
+
+Point rc_make_turn(Point facing, char turn) {
+    auto [r, c] = facing;
+    if (turn == 'L' || turn == 'l') {
+        return Point(-c, r);
+    } else if (turn == 'R' || turn == 'r') {
+        return Point(c, -r);
     } else {
         // keep current direction
         return facing;

@@ -126,10 +126,23 @@ std::vector<int> ints(const std::string& s);
 using Point = std::pair<int, int>;
 Point operator+(const Point& a, const Point& b);
 
+// Directions using (x, y) coordinations:
+// 1) top-left is (0, 0);
+// 2) x grows right;
+// 3) y grows down;
 extern const Point NORTH, EAST, SOUTH, WEST;
 extern const std::map<char, Point> DIRS;
 extern const std::map<char, Point> DIRS_A;
 Point make_turn(Point facing, char turn);
+
+// Directions using (row, column) coordinations:
+// 1) top-left is (0, 0);
+// 2) row grows down;
+// 3) column grows right;
+extern const Point RC_NORTH, RC_EAST, RC_SOUTH, RC_WEST;
+extern const std::map<char, Point> RC_DIRS;
+extern const std::map<char, Point> RC_DIRS_A;
+Point rc_make_turn(Point facing, char turn);
 
 //
 // Implement grid as a vector of strings.
