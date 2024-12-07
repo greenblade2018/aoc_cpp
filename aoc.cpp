@@ -18,6 +18,16 @@ std::vector<int> ints(const std::string& s) {
     return ret;
 }
 
+std::vector<long> longs(const std::string& s) {
+    std::regex pattern(R"([+-]?\d+)");
+    std::vector<long> ret;
+    std::transform(std::sregex_iterator(s.cbegin(), s.cend(), pattern),
+        std::sregex_iterator(),
+        std::back_inserter(ret),
+        [](const auto& mr) { return std::stol(mr.str()); });
+    return ret;
+}
+
 std::vector<std::string> words(const std::string& s) {
     std::regex pattern(R"([a-zA-z]+)");
     std::vector<std::string> ret;
