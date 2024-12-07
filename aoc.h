@@ -118,6 +118,7 @@ std::vector<T> read_input(std::istream& is,
 std::string take_string(std::string& s);
 // Extract all integers with optional signs from string.
 std::vector<int> ints(const std::string& s);
+std::vector<std::string> words(const std::string& s);
 
 //
 // Data structures
