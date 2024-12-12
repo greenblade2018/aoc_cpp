@@ -157,6 +157,7 @@ class StringGrid final {
 public:
     explicit StringGrid(const std::vector<std::string>& lines) : m_grid(lines) {}
 
+    std::pair<size_t, size_t> size() { assert(!m_grid.empty()); return {m_grid.size(), m_grid[0].size()}; }
     // Will throw out_of_range exception if 'pos' is outside of grid.
     const char& operator[](Point pos) const;
     char& operator[](Point pos);
