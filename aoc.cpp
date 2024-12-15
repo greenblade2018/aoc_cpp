@@ -114,7 +114,7 @@ char& StringGrid::operator[](Point pos) {
 std::vector<Point> StringGrid::find_all(char target) const {
     std::vector<Point> result;
     for (size_t r = 0; r < m_grid.size(); ++ r) {
-        for (size_t c = 0; c < m_grid.size(); ++c) {
+        for (size_t c = 0; c < m_grid[r].size(); ++c) {
             if (m_grid[r][c] == target) result.emplace_back(r, c);
         }
     }

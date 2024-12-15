@@ -33,3 +33,6 @@
 
 # Vscode settings
 .vscode/*
+
+# Mac stuff
+.DS_Store
