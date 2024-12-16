@@ -37,7 +37,7 @@ vector<MazeProblem::Action> MazeProblem::actions(const State& state) {
 
 using Node = pair<int, State>;
 
-int dijkstra(const StringGrid& grid) {
+pair<int, int> dijkstra(const StringGrid& grid) {
     Point start = grid.find_all('S').at(0);
     Point end = grid.find_all('E').at(0);
 
@@ -76,7 +76,7 @@ int dijkstra(const StringGrid& grid) {
                 seats[ns].insert(ns.first);
             }
             else if (costs[ns] == nc) {
-                cout << "merging " << nc << ' ' << ns << endl;
+                // cout << "merging " << nc << ' ' << ns << endl;
                 for (const auto& x : seats[state]) seats[ns].insert(x);
             }
             else {
@@ -96,8 +96,8 @@ int dijkstra(const StringGrid& grid) {
             for (const auto& x : seats[s]) best_seats.insert(x);
         }
     }
-    cout << best << ' ' << best_seats << endl;
-    return best_seats.size();
+    // cout << best << ' ' << best_seats << endl;
+    return {best, (int)best_seats.size()};
 }
 
 int main() {
@@ -106,5 +106,7 @@ int main() {
     // auto node = a_star_search(maze);
     // print_answer("one", node.cost);
     StringGrid grid(lines);
-    print_answer("two", dijkstra(grid));
+    auto [one, two] = dijkstra(grid);
+    print_answer("one", one);
+    print_answer("two", two);
 }
