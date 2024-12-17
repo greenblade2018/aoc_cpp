@@ -99,6 +99,22 @@ long find_a(const vector<int>& program, const vector<int>& expected, long pre) {
     return pre;
 }
 
+long find_next(const vector<int>& program, const vector<int>& expected, size_t n, long pre) {
+    cout << n << ' ' << expected[n] << ' ' << oct << pre << dec << endl;
+    if (n == expected.size()) return pre;
+
+    pre *= 8;
+    for (int a = 0; a < 8; ++a, ++pre) {
+        regs[0] = pre;
+        auto out = run(program);
+        if (out[0] == expected[n]) {
+            long answer = find_next(program, expected, n+1, pre);
+            if (answer >= 0) return answer;
+        }
+    }
+    return -1;
+}
+
 long two(vector<int> program) {
     vector<int> expected(program.rbegin(), program.rend());
     cout << "expected: " << expected << endl;
@@ -106,12 +122,7 @@ long two(vector<int> program) {
     program.pop_back();
     program.pop_back();
 
-    for (long pre = 0; pre < (1 << 12); ++pre) {
-        cout << "try pre: " << pre << endl;
-        long answer = find_a(program, expected, pre);
-        if (answer >= 0) return answer;
-    }
-    return -1;
+    return find_next(program, expected, 0, 0);
 }
 
 int main() {
